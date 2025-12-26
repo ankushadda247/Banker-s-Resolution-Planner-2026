@@ -111,42 +111,36 @@
                 size: A4;
                 margin: 0; 
             }
-            body {
+            html, body {
                 background-color: white;
                 margin: 0;
                 padding: 0;
-                /* Scale down entire body to fit safely within printer margins */
                 width: 100%;
-                height: 100%;
             }
             .no-print {
                 display: none !important;
             }
             .page {
-                /* Center the page content */
-                margin: 0 auto !important; 
-                /* Reduce padding significantly for print */
-                padding: 10mm 15mm !important; 
+                /* Reset margins and allow browser to handle safe area */
+                margin: 0 !important;
+                /* Reduce padding to maximize space inside margins */
+                padding: 10mm 12mm !important;
                 box-shadow: none;
-                /* Standard A4 Width */
-                width: 210mm; 
-                /* Force height to be significantly less than A4 (297mm) to create safety buffer */
-                height: 285mm !important; 
-                min-height: 285mm !important;
-                max-height: 285mm !important;
                 
-                /* Ensure strict page breaking */
+                /* Use 100% width to respect printer margins instead of forcing 210mm */
+                width: 100% !important;
+                max-width: 210mm;
+                
+                /* Use exact height to force breaks, but allow slight flex */
+                height: 296mm;
+                min-height: 296mm;
+                
                 page-break-after: always !important;
                 break-after: page !important;
-                page-break-inside: avoid !important;
                 
                 border-radius: 0;
                 overflow: hidden; 
                 border: none;
-                
-                /* Scale down the page element itself to prevent margin overflow */
-                transform: scale(0.95);
-                transform-origin: top center;
             }
             
             /* Specific fix for the red border on cover */
@@ -154,19 +148,25 @@
                 border-left: 8mm solid #dc2626 !important;
             }
             
-            /* Compact vertical spacing for print */
+            /* Aggressive compacting for print */
             .print-compact-y {
-                margin-top: 0.5rem !important;
-                margin-bottom: 0.5rem !important;
+                margin-top: 2mm !important;
+                margin-bottom: 2mm !important;
+            }
+            .print-hidden-y {
+                display: none !important;
+            }
+            .print-text-sm {
+                font-size: 0.9rem !important;
             }
             
             .print-compact-gap {
-                gap: 0.75rem !important;
+                gap: 0.5rem !important;
             }
             
-            /* Hide watermark footer if it pushes content too far, or adjust position */
+            /* Adjust watermark position */
             .watermark-footer {
-                bottom: 2mm !important;
+                bottom: 5mm !important;
             }
         }
     </style>
@@ -192,12 +192,12 @@
             
             <div class="flex-grow flex flex-col justify-center items-center">
                 <div class="text-6xl text-red-600 mb-4 print-compact-y"><i class="fas fa-university"></i></div>
-                <h1 class="serif text-5xl text-slate-900 mb-2 font-bold tracking-tight">Banker's<br>Resolution Book</h1>
+                <h1 class="serif text-5xl text-slate-900 mb-2 font-bold tracking-tight print-compact-y">Banker's<br>Resolution Book</h1>
                 <div class="w-24 h-1 bg-red-600 my-6 print-compact-y"></div>
-                <h2 class="text-3xl text-slate-600 font-light">2026 Edition</h2>
+                <h2 class="text-3xl text-slate-600 font-light print-compact-y">2026 Edition</h2>
                 <p class="mt-8 text-xl text-slate-500 italic print-compact-y">"Consistency beats Intensity."</p>
             </div>
-            <div class="mt-auto text-sm text-slate-400 pb-8"> <!-- Added padding bottom safety -->
+            <div class="mt-auto text-sm text-slate-400 pb-8 print-compact-y"> 
                 <p>Property of:</p>
                 <input type="text" placeholder="Your Name" class="text-center text-lg font-bold" style="border-bottom: 2px solid #000; color: #000;">
             </div>
@@ -212,36 +212,36 @@
                 <span class="text-slate-400 text-4xl font-bold opacity-20">01</span>
             </div>
 
-            <p class="text-slate-600 mb-6 italic">Define what success looks like for you this year.</p>
+            <p class="text-slate-600 mb-6 italic print-compact-y">Define what success looks like for you this year.</p>
 
             <div class="space-y-6 text-xl text-slate-700 print-compact-gap">
-                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
-                    <span>Clear <strong>JAIIB</strong> Exam</span>
+                    <span class="print-text-sm">Clear <strong>JAIIB</strong> Exam</span>
                 </label>
-                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
-                    <span>Clear <strong>CAIIB</strong> Exam</span>
+                    <span class="print-text-sm">Clear <strong>CAIIB</strong> Exam</span>
                 </label>
-                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
-                    <span>Secure <strong>Promotion</strong></span>
+                    <span class="print-text-sm">Secure <strong>Promotion</strong></span>
                 </label>
-                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
-                    <span>Earn an <strong>Increment</strong></span>
+                    <span class="print-text-sm">Earn an <strong>Increment</strong></span>
                 </label>
-                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
                     <div class="flex items-center gap-2 w-full">
-                        <span>Attempt Exam in:</span>
+                        <span class="print-text-sm">Attempt Exam in:</span>
                         <input type="text" placeholder="Month (e.g., May/Oct)" class="w-48 text-center font-bold">
                     </div>
                 </label>
             </div>
 
-            <div class="mt-16 bg-red-50 p-8 rounded-xl border border-red-100">
-                <h3 class="text-xl font-bold text-red-700 mb-4"><i class="fas fa-pen-fancy mr-2"></i>Why this goal matters to me</h3>
+            <div class="mt-16 bg-red-50 p-8 rounded-xl border border-red-100 print-compact-y">
+                <h3 class="text-xl font-bold text-red-700 mb-4 print-compact-y"><i class="fas fa-pen-fancy mr-2"></i>Why this goal matters to me</h3>
                 <p class="text-sm text-red-500 mb-2">Dig deep. Is it family? Respect? Financial freedom?</p>
                 <textarea rows="4" placeholder="Write your strong reason here..." class="bg-transparent text-lg leading-relaxed text-red-900"></textarea>
             </div>
@@ -260,29 +260,29 @@
                 <p class="text-slate-800 font-medium text-lg">"We cannot change what we do not acknowledge."</p>
             </div>
 
-            <h3 class="text-2xl font-bold text-slate-700 mb-6">Last year, I postponed my goals because:</h3>
+            <h3 class="text-2xl font-bold text-slate-700 mb-6 print-compact-y">Last year, I postponed my goals because:</h3>
 
-            <div class="grid grid-cols-1 gap-4 text-lg text-slate-700 mb-12 print-compact-y">
-                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors">
+            <div class="grid grid-cols-1 gap-4 text-lg text-slate-700 mb-12 print-compact-y print-compact-gap">
+                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
-                    <span><strong>No Plan:</strong> I just drifted through the months.</span>
+                    <span class="print-text-sm"><strong>No Plan:</strong> I just drifted through the months.</span>
                 </label>
-                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors">
+                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
-                    <span><strong>No Guidance:</strong> I didn't know what to study first.</span>
+                    <span class="print-text-sm"><strong>No Guidance:</strong> I didn't know what to study first.</span>
                 </label>
-                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors">
+                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
-                    <span><strong>No Consistency:</strong> Study 2 days, gap 10 days.</span>
+                    <span class="print-text-sm"><strong>No Consistency:</strong> Study 2 days, gap 10 days.</span>
                 </label>
-                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors">
+                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors print-compact-y">
                     <input type="checkbox" class="custom-checkbox">
-                    <span><strong>Work Pressure:</strong> I let the bank consume me completely.</span>
+                    <span class="print-text-sm"><strong>Work Pressure:</strong> I let the bank consume me completely.</span>
                 </label>
             </div>
 
-            <h3 class="text-xl font-bold text-slate-700 mb-4">My Commitment for 2026:</h3>
-            <div class="border-2 border-dashed border-red-300 p-6 rounded-lg text-center h-40 flex flex-col justify-center items-center bg-red-50">
+            <h3 class="text-xl font-bold text-slate-700 mb-4 print-compact-y">My Commitment for 2026:</h3>
+            <div class="border-2 border-dashed border-red-300 p-6 rounded-lg text-center h-40 flex flex-col justify-center items-center bg-red-50 print-compact-y">
                 <p class="text-red-800 italic mb-4 text-lg">"I promise to prioritize my growth for 30 minutes every day."</p>
                 <div class="w-2/3 border-b border-black mt-4"></div>
                 <p class="text-xs text-slate-500 mt-1">Signature</p>
@@ -301,11 +301,11 @@
                 <span class="text-slate-400 text-4xl font-bold opacity-20">15</span>
             </div>
             
-            <p class="mb-6 text-slate-600">Don't study hard, study smart. Focus 80% of your energy here.</p>
+            <p class="mb-6 text-slate-600 print-compact-y">Don't study hard, study smart. Focus 80% of your energy here.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 print-compact-gap">
                 <!-- JAIIB -->
-                <div class="border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow bg-white/80">
+                <div class="border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow bg-white/80 print-compact-y">
                     <div class="bg-red-600 text-white font-bold px-3 py-1 rounded inline-block mb-4">JAIIB Focus</div>
                     <ul class="space-y-3 text-slate-700">
                         <li class="flex items-start gap-2"><i class="fas fa-check-circle text-red-500 mt-1"></i> <span><strong>IE & IFS:</strong> Module A (Indian Econ) & D (Financial Products)</span></li>
@@ -316,7 +316,7 @@
                 </div>
 
                 <!-- CAIIB -->
-                <div class="border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow bg-white/80">
+                <div class="border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow bg-white/80 print-compact-y">
                     <div class="bg-slate-800 text-white font-bold px-3 py-1 rounded inline-block mb-4">CAIIB Focus</div>
                     <ul class="space-y-3 text-slate-700">
                         <li class="flex items-start gap-2"><i class="fas fa-check-circle text-slate-600 mt-1"></i> <span><strong>ABM:</strong> Module A (Statistics) & C (HRM)</span></li>
@@ -327,7 +327,7 @@
                 </div>
             </div>
 
-            <div class="mt-8 bg-yellow-50 p-6 rounded-lg border border-yellow-200 relative z-10">
+            <div class="mt-8 bg-yellow-50 p-6 rounded-lg border border-yellow-200 relative z-10 print-compact-y">
                 <h3 class="font-bold text-yellow-800 mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Common Mistakes to Avoid</h3>
                 <ul class="list-disc ml-6 space-y-2 text-yellow-900">
                     <li>Leaving "Numerical" subjects for the last week.</li>
@@ -406,7 +406,7 @@
                     <!-- Text Watermark -->
                     <div class="watermark-footer">Adda Education</div>
 
-                    <div class="flex justify-between items-start mb-6 border-b-2 border-slate-100 pb-2 relative z-10">
+                    <div class="flex justify-between items-start mb-6 border-b-2 border-slate-100 pb-2 relative z-10 print-compact-y">
                         <div>
                             <h2 class="text-6xl font-black text-slate-200 uppercase -mb-4 ml-1 select-none">${index + 1}</h2>
                             <h3 class="text-4xl font-bold text-slate-800 relative z-10">${month} <span class="text-lg font-normal text-red-600">2026</span></h3>
@@ -417,14 +417,14 @@
                     </div>
 
                     <!-- Main Goal Block -->
-                    <div class="mb-8 relative z-10">
+                    <div class="mb-8 relative z-10 print-compact-y">
                         <label class="block text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Big Focus of the Month</label>
                         <input type="text" placeholder="e.g., Finish Module A of PPB..." class="text-2xl font-medium text-red-700 py-2">
                     </div>
 
                     <!-- Split Section -->
-                    <div class="grid grid-cols-1 gap-8 mb-8 relative z-10">
-                        <div class="bg-slate-50/90 p-6 rounded-lg border border-slate-100 backdrop-blur-sm">
+                    <div class="grid grid-cols-1 gap-8 mb-8 relative z-10 print-compact-gap">
+                        <div class="bg-slate-50/90 p-6 rounded-lg border border-slate-100 backdrop-blur-sm print-compact-y">
                             <label class="block text-sm font-bold text-slate-500 uppercase tracking-wide mb-2"><i class="fas fa-book mr-2"></i>Chapters / Topics to Finish</label>
                             <div class="space-y-4">
                                 <div class="flex items-center gap-3">
@@ -447,11 +447,11 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-red-50/90 p-4 rounded-lg border border-red-100 backdrop-blur-sm">
+                            <div class="bg-red-50/90 p-4 rounded-lg border border-red-100 backdrop-blur-sm print-compact-y">
                                 <label class="block text-xs font-bold text-red-800 uppercase tracking-wide mb-2">Mock Tests Planned</label>
                                 <input type="text" placeholder="#" class="text-4xl font-bold text-center bg-transparent border-none text-red-700">
                             </div>
-                            <div class="bg-slate-100/90 p-4 rounded-lg border border-slate-200 backdrop-blur-sm">
+                            <div class="bg-slate-100/90 p-4 rounded-lg border border-slate-200 backdrop-blur-sm print-compact-y">
                                 <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Weak Area to Fix</label>
                                 <textarea rows="2" placeholder="e.g. Numericals" class="bg-transparent text-sm w-full border-b border-slate-300"></textarea>
                             </div>
@@ -459,7 +459,7 @@
                     </div>
 
                     <!-- Notes Section -->
-                    <div class="flex-grow border-t-2 border-dotted border-slate-300 pt-4 relative z-10">
+                    <div class="flex-grow border-t-2 border-dotted border-slate-300 pt-4 relative z-10 print-compact-y">
                         <label class="block text-sm font-bold text-slate-400 uppercase tracking-wide mb-2">Notes & key Learnings</label>
                         <textarea class="w-full h-full bg-transparent border-none resize-none leading-8" style="background-image: repeating-linear-gradient(transparent, transparent 31px, #e2e8f0 32px); line-height: 32px; padding-top: 6px;" placeholder="Write your notes here..."></textarea>
                     </div>
