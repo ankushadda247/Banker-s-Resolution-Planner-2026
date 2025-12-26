@@ -37,7 +37,7 @@
         /* Watermark Footer */
         .watermark-footer {
             position: absolute;
-            bottom: 5mm; /* Moved lower */
+            bottom: 5mm; 
             left: 0;
             width: 100%;
             text-align: center;
@@ -115,25 +115,38 @@
                 background-color: white;
                 margin: 0;
                 padding: 0;
+                /* Scale down entire body to fit safely within printer margins */
+                width: 100%;
+                height: 100%;
             }
             .no-print {
                 display: none !important;
             }
             .page {
-                margin: 0 !important;
-                /* Reduced padding for print to ensure content fits vertically */
+                /* Center the page content */
+                margin: 0 auto !important; 
+                /* Reduce padding significantly for print */
                 padding: 10mm 15mm !important; 
                 box-shadow: none;
+                /* Standard A4 Width */
                 width: 210mm; 
-                /* Force height to be slightly less than A4 to prevent spillover */
-                height: 296mm !important; 
-                min-height: 296mm !important;
-                max-height: 296mm !important;
-                page-break-after: always;
-                break-after: page;
+                /* Force height to be significantly less than A4 (297mm) to create safety buffer */
+                height: 285mm !important; 
+                min-height: 285mm !important;
+                max-height: 285mm !important;
+                
+                /* Ensure strict page breaking */
+                page-break-after: always !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                
                 border-radius: 0;
                 overflow: hidden; 
                 border: none;
+                
+                /* Scale down the page element itself to prevent margin overflow */
+                transform: scale(0.95);
+                transform-origin: top center;
             }
             
             /* Specific fix for the red border on cover */
@@ -143,12 +156,17 @@
             
             /* Compact vertical spacing for print */
             .print-compact-y {
-                margin-top: 1rem !important;
-                margin-bottom: 1rem !important;
+                margin-top: 0.5rem !important;
+                margin-bottom: 0.5rem !important;
             }
             
             .print-compact-gap {
-                gap: 1rem !important;
+                gap: 0.75rem !important;
+            }
+            
+            /* Hide watermark footer if it pushes content too far, or adjust position */
+            .watermark-footer {
+                bottom: 2mm !important;
             }
         }
     </style>
