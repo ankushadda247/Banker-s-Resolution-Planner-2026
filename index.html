@@ -30,6 +30,444 @@
             position: relative;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+            box-sizing: border-box; /* Crucial for sizing */
+        }
+
+        /* NEW Text Watermark Footer */
+        .watermark-footer {
+            position: absolute;
+            bottom: 10mm;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #cbd5e1; /* Subtle Grey */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Ensure content sits above watermark */
+        .page > *:not(.watermark-footer) {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Handwritten font style for inputs - Red Ink */
+        input[type="text"], textarea {
+            font-family: 'Inter', sans-serif; 
+            color: #b91c1c; /* Deep Red ink */
+            border: none;
+            border-bottom: 1px dashed #fca5a5; /* Light red dashed line */
+            width: 100%;
+            background: transparent;
+            padding: 4px 0;
+            resize: none;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-bottom: 1px solid #b91c1c;
+            background-color: rgba(254, 242, 242, 0.8); /* Very light red */
+        }
+
+        /* Checkbox styling - Red Theme */
+        .custom-checkbox {
+            appearance: none;
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 1.5em;
+            height: 1.5em;
+            border: 2px solid #ef4444; /* Red border */
+            border-radius: 0.15em;
+            display: grid;
+            place-content: center;
+            cursor: pointer;
+        }
+
+        .custom-checkbox::before {
+            content: "";
+            width: 0.85em;
+            height: 0.85em;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em #dc2626; /* Red check */
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+
+        .custom-checkbox:checked::before {
+            transform: scale(1);
+        }
+
+        /* Print Specific Styles - FIXED */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0; /* Reset browser default margins */
+            }
+            body {
+                background-color: white;
+                margin: 0;
+                padding: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .page {
+                margin: 0 !important;
+                padding: 15mm !important; /* Slightly reduced padding for safety */
+                box-shadow: none;
+                width: 210mm; 
+                height: 296mm; /* 1mm safety buffer to prevent blank page overflow */
+                page-break-after: always;
+                break-after: page;
+                border-radius: 0;
+                overflow: hidden; /* Cut off any slight overflow */
+                border: none; /* Borders can add width, handle with care */
+            }
+            /* Re-apply colored borders using box-shadow inset or borders if box-sizing is border-box */
+            .page.cover-page {
+                border-left: 8mm solid #dc2626 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Control Bar -->
+    <div class="no-print fixed top-0 left-0 w-full bg-red-700 text-white p-4 z-50 flex justify-between items-center shadow-lg">
+        <div>
+            <h1 class="font-bold text-lg"><i class="fas fa-book-open mr-2"></i>Banker's Resolution Planner 2026</h1>
+            <p class="text-xs text-red-100">Fill it out digitally or print it blank.</p>
+        </div>
+        <button onclick="window.print()" class="bg-white hover:bg-red-50 text-red-700 font-bold py-2 px-6 rounded-full transition shadow-lg flex items-center gap-2 border border-red-200">
+            <i class="fas fa-print"></i> Print / Save PDF
+        </button>
+    </div>
+
+    <div class="pt-20 pb-10">
+
+        <!-- COVER PAGE -->
+        <div class="page cover-page justify-center text-center border-l-8 border-red-600">
+            <!-- Text Watermark -->
+            <div class="watermark-footer">Adda Education</div>
+            
+            <div class="flex-grow flex flex-col justify-center items-center">
+                <div class="text-6xl text-red-600 mb-4"><i class="fas fa-university"></i></div>
+                <h1 class="serif text-5xl text-slate-900 mb-2 font-bold tracking-tight">Banker's<br>Resolution Book</h1>
+                <div class="w-24 h-1 bg-red-600 my-6"></div>
+                <h2 class="text-3xl text-slate-600 font-light">2026 Edition</h2>
+                <p class="mt-8 text-xl text-slate-500 italic">"Consistency beats Intensity."</p>
+            </div>
+            <div class="mt-auto text-sm text-slate-400">
+                <p>Property of:</p>
+                <input type="text" placeholder="Your Name" class="text-center text-lg font-bold" style="border-bottom: 2px solid #000; color: #000;">
+            </div>
+        </div>
+
+        <!-- PAGE 1: GOALS -->
+        <div class="page">
+            <div class="watermark-footer">Adda Education</div>
+
+            <div class="border-b-4 border-slate-200 pb-4 mb-8 flex justify-between items-end">
+                <h2 class="text-3xl font-bold text-slate-800">My Banker Goal 2026</h2>
+                <span class="text-slate-400 text-4xl font-bold opacity-20">01</span>
+            </div>
+
+            <p class="text-slate-600 mb-6 italic">Define what success looks like for you this year.</p>
+
+            <div class="space-y-6 text-xl text-slate-700">
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <span>Clear <strong>JAIIB</strong> Exam</span>
+                </label>
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <span>Clear <strong>CAIIB</strong> Exam</span>
+                </label>
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <span>Secure <strong>Promotion</strong></span>
+                </label>
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <span>Earn an <strong>Increment</strong></span>
+                </label>
+                <label class="flex items-center gap-4 cursor-pointer hover:bg-red-50 p-2 rounded transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <div class="flex items-center gap-2 w-full">
+                        <span>Attempt Exam in:</span>
+                        <input type="text" placeholder="Month (e.g., May/Oct)" class="w-48 text-center font-bold">
+                    </div>
+                </label>
+            </div>
+
+            <div class="mt-16 bg-red-50 p-8 rounded-xl border border-red-100">
+                <h3 class="text-xl font-bold text-red-700 mb-4"><i class="fas fa-pen-fancy mr-2"></i>Why this goal matters to me</h3>
+                <p class="text-sm text-red-500 mb-2">Dig deep. Is it family? Respect? Financial freedom?</p>
+                <textarea rows="4" placeholder="Write your strong reason here..." class="bg-transparent text-lg leading-relaxed text-red-900"></textarea>
+            </div>
+        </div>
+
+        <!-- PAGE 2: REALITY CHECK -->
+        <div class="page">
+            <div class="watermark-footer">Adda Education</div>
+
+            <div class="border-b-4 border-slate-200 pb-4 mb-8 flex justify-between items-end">
+                <h2 class="text-3xl font-bold text-slate-800">The Reality Check</h2>
+                <span class="text-slate-400 text-4xl font-bold opacity-20">02</span>
+            </div>
+
+            <div class="bg-slate-100 p-6 rounded-lg border-l-4 border-slate-400 mb-10">
+                <p class="text-slate-800 font-medium text-lg">"We cannot change what we do not acknowledge."</p>
+            </div>
+
+            <h3 class="text-2xl font-bold text-slate-700 mb-6">Last year, I postponed my goals because:</h3>
+
+            <div class="grid grid-cols-1 gap-4 text-lg text-slate-700 mb-12">
+                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <span><strong>No Plan:</strong> I just drifted through the months.</span>
+                </label>
+                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <span><strong>No Guidance:</strong> I didn't know what to study first.</span>
+                </label>
+                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <span><strong>No Consistency:</strong> Study 2 days, gap 10 days.</span>
+                </label>
+                <label class="flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-red-50 hover:border-red-200 transition-colors">
+                    <input type="checkbox" class="custom-checkbox">
+                    <span><strong>Work Pressure:</strong> I let the bank consume me completely.</span>
+                </label>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-700 mb-4">My Commitment for 2026:</h3>
+            <div class="border-2 border-dashed border-red-300 p-6 rounded-lg text-center h-40 flex flex-col justify-center items-center bg-red-50">
+                <p class="text-red-800 italic mb-4 text-lg">"I promise to prioritize my growth for 30 minutes every day."</p>
+                <div class="w-2/3 border-b border-black mt-4"></div>
+                <p class="text-xs text-slate-500 mt-1">Signature</p>
+            </div>
+        </div>
+
+        <!-- MONTHLY PAGES GENERATOR -->
+        <div id="monthly-pages-container"></div>
+
+        <!-- SPECIAL PAGE: HIGH WEIGHTAGE -->
+        <div class="page">
+            <div class="watermark-footer">Adda Education</div>
+
+            <div class="border-b-4 border-slate-200 pb-4 mb-8 flex justify-between items-end">
+                <h2 class="text-3xl font-bold text-slate-800">High Weightage Areas</h2>
+                <span class="text-slate-400 text-4xl font-bold opacity-20">15</span>
+            </div>
+            
+            <p class="mb-6 text-slate-600">Don't study hard, study smart. Focus 80% of your energy here.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- JAIIB -->
+                <div class="border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow bg-white/80">
+                    <div class="bg-red-600 text-white font-bold px-3 py-1 rounded inline-block mb-4">JAIIB Focus</div>
+                    <ul class="space-y-3 text-slate-700">
+                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-red-500 mt-1"></i> <span><strong>IE & IFS:</strong> Module A (Indian Econ) & D (Financial Products)</span></li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-red-500 mt-1"></i> <span><strong>PPB:</strong> Module B (Banker-Customer Rel.)</span></li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-red-500 mt-1"></i> <span><strong>AFM:</strong> Module A (Accounting Principles) & B (Accounts)</span></li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-red-500 mt-1"></i> <span><strong>RBWM:</strong> Module B (Retail Products) & C (Marketing)</span></li>
+                    </ul>
+                </div>
+
+                <!-- CAIIB -->
+                <div class="border rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow bg-white/80">
+                    <div class="bg-slate-800 text-white font-bold px-3 py-1 rounded inline-block mb-4">CAIIB Focus</div>
+                    <ul class="space-y-3 text-slate-700">
+                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-slate-600 mt-1"></i> <span><strong>ABM:</strong> Module A (Statistics) & C (HRM)</span></li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-slate-600 mt-1"></i> <span><strong>BFM:</strong> Module A (Forex) & B (Risk Mgmt Basics)</span></li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-slate-600 mt-1"></i> <span><strong>ABFM:</strong> Valuation & Mergers</span></li>
+                        <li class="flex items-start gap-2"><i class="fas fa-check-circle text-slate-600 mt-1"></i> <span><strong>BRBL:</strong> SARFAESI & DRT Laws</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-8 bg-yellow-50 p-6 rounded-lg border border-yellow-200 relative z-10">
+                <h3 class="font-bold text-yellow-800 mb-2"><i class="fas fa-exclamation-triangle mr-2"></i>Common Mistakes to Avoid</h3>
+                <ul class="list-disc ml-6 space-y-2 text-yellow-900">
+                    <li>Leaving "Numerical" subjects for the last week.</li>
+                    <li>Reading the book but never attempting a Mock Test.</li>
+                    <li>Ignoring the updated syllabus (Recent Circulars).</li>
+                    <li>Studying without a notebook (Active Recall > Passive Reading).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LAST PAGE: CTA -->
+        <div class="page bg-red-700 text-white flex flex-col justify-between">
+            <div class="watermark-footer" style="color: rgba(255,255,255,0.2);">Adda Education</div>
+
+            <div class="mt-10 relative z-10">
+                <h2 class="text-4xl font-bold text-white mb-2">When I Need Help</h2>
+                <p class="text-red-100 text-xl">The Business Magic Page</p>
+                <div class="w-32 h-1 bg-white my-6"></div>
+            </div>
+
+            <div class="space-y-8 relative z-10">
+                <div class="flex items-center gap-6">
+                    <div class="w-16 h-16 bg-white text-red-700 rounded-full flex items-center justify-center text-2xl shadow-lg">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold">Expert Mentorship</h3>
+                        <p class="text-red-100">Don't struggle alone. Get guidance.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <div class="w-16 h-16 bg-white text-red-700 rounded-full flex items-center justify-center text-2xl shadow-lg">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold">Doubt Solving</h3>
+                        <p class="text-red-100">Stuck on a concept? We clear it instantly.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <div class="w-16 h-16 bg-white text-red-700 rounded-full flex items-center justify-center text-2xl shadow-lg">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold">Structured Batches</h3>
+                        <p class="text-red-100">Systematic learning path for 2026.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-10 text-center border-t border-red-500 pt-10 relative z-10">
+                <p class="text-red-200 mb-4 uppercase tracking-widest text-sm">Reach out directly</p>
+                <div class="text-5xl font-bold text-white tracking-wider font-mono">09819819247</div>
+                <p class="mt-4 text-white font-semibold">"Your Promotion Partner"</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const months = [
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        const container = document.getElementById('monthly-pages-container');
+
+        months.forEach((month, index) => {
+            const pageNum = index + 3; // Starting from page 3
+            
+            const html = `
+                <div class="page">
+                    <!-- Text Watermark -->
+                    <div class="watermark-footer">Adda Education</div>
+
+                    <div class="flex justify-between items-start mb-6 border-b-2 border-slate-100 pb-2 relative z-10">
+                        <div>
+                            <h2 class="text-6xl font-black text-slate-200 uppercase -mb-4 ml-1 select-none">${index + 1}</h2>
+                            <h3 class="text-4xl font-bold text-slate-800 relative z-10">${month} <span class="text-lg font-normal text-red-600">2026</span></h3>
+                        </div>
+                        <div class="text-right">
+                             <span class="text-slate-400 text-xl font-bold opacity-40">Pg ${pageNum}</span>
+                        </div>
+                    </div>
+
+                    <!-- Main Goal Block -->
+                    <div class="mb-8 relative z-10">
+                        <label class="block text-sm font-bold text-slate-500 uppercase tracking-wide mb-1">Big Focus of the Month</label>
+                        <input type="text" placeholder="e.g., Finish Module A of PPB..." class="text-2xl font-medium text-red-700 py-2">
+                    </div>
+
+                    <!-- Split Section -->
+                    <div class="grid grid-cols-1 gap-8 mb-8 relative z-10">
+                        <div class="bg-slate-50/90 p-6 rounded-lg border border-slate-100 backdrop-blur-sm">
+                            <label class="block text-sm font-bold text-slate-500 uppercase tracking-wide mb-2"><i class="fas fa-book mr-2"></i>Chapters / Topics to Finish</label>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" class="custom-checkbox">
+                                    <input type="text" placeholder="Topic 1">
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" class="custom-checkbox">
+                                    <input type="text" placeholder="Topic 2">
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" class="custom-checkbox">
+                                    <input type="text" placeholder="Topic 3">
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <input type="checkbox" class="custom-checkbox">
+                                    <input type="text" placeholder="Topic 4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-red-50/90 p-4 rounded-lg border border-red-100 backdrop-blur-sm">
+                                <label class="block text-xs font-bold text-red-800 uppercase tracking-wide mb-2">Mock Tests Planned</label>
+                                <input type="text" placeholder="#" class="text-4xl font-bold text-center bg-transparent border-none text-red-700">
+                            </div>
+                            <div class="bg-slate-100/90 p-4 rounded-lg border border-slate-200 backdrop-blur-sm">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Weak Area to Fix</label>
+                                <textarea rows="2" placeholder="e.g. Numericals" class="bg-transparent text-sm w-full border-b border-slate-300"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notes Section -->
+                    <div class="flex-grow border-t-2 border-dotted border-slate-300 pt-4 relative z-10">
+                        <label class="block text-sm font-bold text-slate-400 uppercase tracking-wide mb-2">Notes & key Learnings</label>
+                        <textarea class="w-full h-full bg-transparent border-none resize-none leading-8" style="background-image: repeating-linear-gradient(transparent, transparent 31px, #e2e8f0 32px); line-height: 32px; padding-top: 6px;" placeholder="Write your notes here..."></textarea>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += html;
+        });
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banker's Resolution Book 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Paper texture effect for screen */
+        .page {
+            background-color: white;
+            width: 210mm;
+            min-height: 297mm;
+            margin: 20px auto;
+            padding: 20mm;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            display: flex;
+            flex-direction: column;
             overflow: hidden; /* Keep watermark inside */
         }
 
